@@ -19,7 +19,7 @@ pipeline {
                     if (fileExists('prod.go')) {
                         echo 'Запуск скрипта развертывания deploy.sh'
                         sh 'chmod +x deploy.sh'
-                        sh 'deploy.sh'
+                        sh './deploy.sh'
                     } else {
                         echo 'Файл prod.go не найден. Ничего не будет развернуто.'
                     }
