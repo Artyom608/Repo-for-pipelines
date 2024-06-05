@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    environment {
+        SSH_CREDENTIALS_ID = 'some_id' 
+    }
+    stages {
+        stage('Fetch file every minute') {
+            steps {
+                script {
+                    for (int i = 0; i < 60; i++) {
+                        withCredentials([usernamePassword(credentialsId: env.SSH_CREDENTIALS_ID, usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                            sh """
+                                sshpass -p $PASS ssh -o StrictHostKeyChecking=no jump@10.99.33.98 'cat ~/test' > ~/a
+                            """
+                        }
+                        sleep(time: 1, unit: 'MINUTES')
+                    }
+                }
+            }
+        }
+    }
+}
